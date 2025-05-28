@@ -78,14 +78,12 @@
     }
 
     .search-bar {
-      margin: 1.25rem 0;
+      margin: 1.25rem auto;
       display: flex;
       flex-direction: column;
       align-items: stretch;
       gap: 0.5rem;
       max-width: 50rem;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .search-bar input[type="text"] {
@@ -101,19 +99,68 @@
       margin-right: 0.5rem;
     }
 
-    .pomodoro-widget {
+    .pomodoro-toggle {
       position: fixed;
       bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 1000;
+      background: var(--color-accent);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pomodoro-toggle::before {
+      content: '\25B2\25BC'; /* Triángulos reloj de arena */
+      font-size: 1rem;
+    }
+
+    .pomodoro-widget {
+      position: fixed;
+      bottom: 4rem;
       right: 1.25rem;
       background: white;
       border: 1px solid #ccc;
       padding: 0.625rem;
       border-radius: 0.625rem;
       font-size: 1rem;
+      display: none;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
     }
 
-    .hidden-elements {
-      display: none !important;
+    .pomodoro-widget.show {
+      display: block;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .pomodoro-widget h4 {
+      margin: 0 0 0.5rem;
+      text-align: center;
+    }
+
+    .pomodoro-widget button {
+      background-color: var(--color-accent);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      border-radius: 1.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .pomodoro-widget button:hover {
+      background-color: #0056b3;
     }
 
     .accessibility-controls {
@@ -121,23 +168,37 @@
       font-size: 1rem;
     }
 
-    .participants {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
+    .accessibility-controls select {
+      padding: 0.5rem;
+      font-size: 1rem;
     }
 
-    .participant {
+    .forum-user {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-top: 1px solid #ddd;
+    }
+
+    .forum-user img {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background-color: #ccc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #fff;
-      font-size: 1rem;
+      object-fit: cover;
+    }
+
+    .forum-user-content {
+      flex: 1;
+    }
+
+    .feedback {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 0.625rem;
+      box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
@@ -191,16 +252,39 @@
     <section id="comunidad">
       <h2>Comunidad</h2>
       <p>Participa en el foro, guarda tus recursos favoritos y comparte tus logros.</p>
-      <div class="participants">
-        <div class="participant">A</div>
-        <div class="participant">B</div>
-        <div class="participant">C</div>
+
+      <div class="forum-user">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Usuario 1">
+        <div class="forum-user-content">
+          <strong>Ana</strong>
+          <p>Me gustó mucho la técnica Pomodoro, ¡me ayudó a concentrarme!</p>
+        </div>
+      </div>
+
+      <div class="forum-user">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Usuario 2">
+        <div class="forum-user-content">
+          <strong>Bruno</strong>
+          <p>¿Alguien ha probado las plantillas de planificación semanal?</p>
+        </div>
+      </div>
+
+      <div class="forum-user">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Usuario 3">
+        <div class="forum-user-content">
+          <strong>Carla</strong>
+          <p>Me encantaría ver más videos explicativos sobre técnicas de estudio.</p>
+        </div>
       </div>
     </section>
 
     <div class="accessibility-controls">
-      <label for="fontSize">Tamaño de letra:</label>
-      <input type="range" id="fontSize" min="12" max="24" value="16">
+      <label for="fontSizeSelect">Tamaño de letra:</label>
+      <select id="fontSizeSelect">
+        <option value="14">Pequeña</option>
+        <option value="16" selected>Mediana</option>
+        <option value="20">Grande</option>
+      </select>
     </div>
 
     <div class="feedback">
@@ -208,7 +292,8 @@
     </div>
   </main>
 
-  <div class="pomodoro-widget">
+  <div class="pomodoro-toggle" onclick="togglePomodoro()"></div>
+  <div class="pomodoro-widget" id="pomodoroWidget">
     <h4>Pomodoro</h4>
     <button onclick="startPomodoro(25, 5)">25/5</button>
     <button onclick="startPomodoro(50, 10)">50/10</button>
@@ -219,9 +304,14 @@
       alert(`Iniciando bloque de trabajo de ${work} minutos con descanso de ${rest} minutos.`);
     }
 
-    document.getElementById('fontSize').addEventListener('input', function () {
+    document.getElementById('fontSizeSelect').addEventListener('change', function () {
       document.documentElement.style.fontSize = this.value + 'px';
     });
+
+    function togglePomodoro() {
+      const widget = document.getElementById('pomodoroWidget');
+      widget.classList.toggle('show');
+    }
   </script>
 </body>
 
