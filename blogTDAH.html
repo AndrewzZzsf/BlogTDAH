@@ -13,18 +13,29 @@
       --color-contrast: #000;
     }
 
+    * {
+      box-sizing: border-box;
+      word-wrap: break-word;
+      max-width: 100%;
+    }
+
+    html {
+      font-size: 100%;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: var(--color-bg);
       color: var(--color-text);
       line-height: 1.6;
+      font-size: 1rem;
     }
 
     header {
       background-color: white;
       border-bottom: 1px solid #ccc;
-      padding: 10px 20px;
+      padding: 0.5rem 1rem;
       position: fixed;
       width: 100%;
       top: 0;
@@ -32,67 +43,73 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     nav a {
-      margin: 0 10px;
+      margin: 0 0.5rem;
       text-decoration: none;
       color: var(--color-accent);
+      font-size: 1rem;
     }
 
-    .breadcrumb {
-      margin: 80px 20px 0;
-      font-size: 0.9em;
+    nav a::after {
+      content: none !important;
     }
 
     main {
-      padding: 20px;
-      max-width: 800px;
+      padding: 5rem 1.25rem 1.25rem;
+      max-width: 50rem;
       margin: auto;
     }
 
     section {
-      margin-bottom: 40px;
+      margin-bottom: 2rem;
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 1.25rem;
+      border-radius: 0.625rem;
+      box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
     }
 
     h2, h3 {
       color: var(--color-accent);
+      font-size: clamp(1.5rem, 2vw, 2rem);
     }
 
     .search-bar {
-      margin: 20px 0;
+      margin: 1.25rem 0;
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+      max-width: 50rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      width: 100%;
+      font-size: 1rem;
+      box-shadow: 0 0 0.25rem rgba(0,0,0,0.05);
     }
 
     .filters label {
-      margin-right: 10px;
+      margin-right: 0.5rem;
     }
 
     .pomodoro-widget {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 1.25rem;
+      right: 1.25rem;
       background: white;
       border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    .focus-mode {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: var(--color-accent);
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
+      padding: 0.625rem;
+      border-radius: 0.625rem;
+      font-size: 1rem;
     }
 
     .hidden-elements {
@@ -100,7 +117,27 @@
     }
 
     .accessibility-controls {
-      margin-top: 20px;
+      margin-top: 1.25rem;
+      font-size: 1rem;
+    }
+
+    .participants {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .participant {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      font-size: 1rem;
     }
   </style>
 </head>
@@ -116,10 +153,6 @@
       <a href="#comunidad">Comunidad</a>
     </nav>
   </header>
-
-  <div class="breadcrumb">
-    Home > Recursos > Técnicas
-  </div>
 
   <main>
     <div class="search-bar">
@@ -158,7 +191,11 @@
     <section id="comunidad">
       <h2>Comunidad</h2>
       <p>Participa en el foro, guarda tus recursos favoritos y comparte tus logros.</p>
-      <!-- Plugin de foro aquí -->
+      <div class="participants">
+        <div class="participant">A</div>
+        <div class="participant">B</div>
+        <div class="participant">C</div>
+      </div>
     </section>
 
     <div class="accessibility-controls">
@@ -171,8 +208,6 @@
     </div>
   </main>
 
-  <button class="focus-mode" onclick="toggleFocus()">Modo sin distracciones</button>
-
   <div class="pomodoro-widget">
     <h4>Pomodoro</h4>
     <button onclick="startPomodoro(25, 5)">25/5</button>
@@ -180,19 +215,12 @@
   </div>
 
   <script>
-    function toggleFocus() {
-      document.querySelector('header').classList.toggle('hidden-elements');
-      document.querySelector('.breadcrumb').classList.toggle('hidden-elements');
-      document.querySelector('.search-bar').classList.toggle('hidden-elements');
-    }
-
     function startPomodoro(work, rest) {
       alert(`Iniciando bloque de trabajo de ${work} minutos con descanso de ${rest} minutos.`);
-      // Aquí puedes integrar un temporizador real.
     }
 
     document.getElementById('fontSize').addEventListener('input', function () {
-      document.body.style.fontSize = this.value + 'px';
+      document.documentElement.style.fontSize = this.value + 'px';
     });
   </script>
 </body>
