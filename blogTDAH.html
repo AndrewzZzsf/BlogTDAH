@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog para Estudiantes con TDAH</title>
+  <style>
+    :root {
+      --color-bg: #f9f9f9;
+      --color-text: #333;
+      --color-accent: #007BFF;
+      --color-contrast: #000;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: white;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 20px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: var(--color-accent);
+    }
+
+    .breadcrumb {
+      margin: 80px 20px 0;
+      font-size: 0.9em;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    section {
+      margin-bottom: 40px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h3 {
+      color: var(--color-accent);
+    }
+
+    .search-bar {
+      margin: 20px 0;
+      display: flex;
+      gap: 10px;
+    }
+
+    .filters label {
+      margin-right: 10px;
+    }
+
+    .pomodoro-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .focus-mode {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hidden-elements {
+      display: none !important;
+    }
+
+    .accessibility-controls {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div>
+      <strong>Blog TDAH</strong>
+    </div>
+    <nav>
+      <a href="#problema">Problema</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#comunidad">Comunidad</a>
+    </nav>
+  </header>
+
+  <div class="breadcrumb">
+    Home > Recursos > Técnicas
+  </div>
+
+  <main>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar..." />
+      <div class="filters">
+        <label><input type="checkbox" /> Gestión del tiempo</label>
+        <label><input type="checkbox" /> Técnicas de estudio</label>
+      </div>
+    </div>
+
+    <section id="problema">
+      <h2>TL;DR</h2>
+      <p>Este blog busca mejorar la autonomía y gestión del tiempo de estudiantes con TDAH a través de contenido accesible.</p>
+      <h3>Descripción del problema</h3>
+      <p>Muchos estudiantes con TDAH enfrentan dificultades para organizarse, mantener la atención y completar tareas. Un entorno web bien diseñado puede ayudarlos.</p>
+      <h3>Resumen y próximos pasos</h3>
+      <p>Continúa explorando recursos y estrategias prácticas en las siguientes secciones.</p>
+    </section>
+
+    <section id="recursos">
+      <h2>Recursos útiles</h2>
+      <ul>
+        <li><strong>Pomodoro:</strong> Trabaja 25 min y descansa 5.</li>
+        <li><strong>Mapas mentales:</strong> Descarga plantillas para organizar ideas.</li>
+        <li><strong>Autoevaluaciones:</strong> Prueba tus conocimientos al final de cada módulo.</li>
+      </ul>
+      <h3>Infografía</h3>
+      <img src="infografia.svg" alt="Infografía sobre TDAH" style="width:100%; max-width:500px;" />
+      <h3>Video breve</h3>
+      <video controls width="100%">
+        <source src="video-breve.mp4" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+      </video>
+    </section>
+
+    <section id="comunidad">
+      <h2>Comunidad</h2>
+      <p>Participa en el foro, guarda tus recursos favoritos y comparte tus logros.</p>
+      <!-- Plugin de foro aquí -->
+    </section>
+
+    <div class="accessibility-controls">
+      <label for="fontSize">Tamaño de letra:</label>
+      <input type="range" id="fontSize" min="12" max="24" value="16">
+    </div>
+
+    <div class="feedback">
+      <p>¿Te resultó útil este contenido? ★★★☆☆</p>
+    </div>
+  </main>
+
+  <button class="focus-mode" onclick="toggleFocus()">Modo sin distracciones</button>
+
+  <div class="pomodoro-widget">
+    <h4>Pomodoro</h4>
+    <button onclick="startPomodoro(25, 5)">25/5</button>
+    <button onclick="startPomodoro(50, 10)">50/10</button>
+  </div>
+
+  <script>
+    function toggleFocus() {
+      document.querySelector('header').classList.toggle('hidden-elements');
+      document.querySelector('.breadcrumb').classList.toggle('hidden-elements');
+      document.querySelector('.search-bar').classList.toggle('hidden-elements');
+    }
+
+    function startPomodoro(work, rest) {
+      alert(`Iniciando bloque de trabajo de ${work} minutos con descanso de ${rest} minutos.`);
+      // Aquí puedes integrar un temporizador real.
+    }
+
+    document.getElementById('fontSize').addEventListener('input', function () {
+      document.body.style.fontSize = this.value + 'px';
+    });
+  </script>
+</body>
+
+</html>
